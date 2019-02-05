@@ -24,3 +24,7 @@ spec:
         backend:
           serviceName: organization
           servicePort: 8080
+      - path: /swagger
+        backend:
+          serviceName: gateway
+          servicePort: 8080

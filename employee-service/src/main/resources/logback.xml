@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+    <configuration scan="true" scanPeriod="3 seconds">
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+    <property name="applicationName" value="employee-service"/>
+
+    <property name="PATTERN"
+              value="%d{dd-MM-yyyy HH:mm:ss.SSS} | ${hostName} | %thread | %-5level | %method | %message %n"/>
+
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${applicationName}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${applicationName}-%d{dd-MM-yyy}.log.zip</fileNamePattern>
+            <maxHistory>10</maxHistory>
+        </rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>10MB</maxFileSize>
+        </triggeringPolicy>
+        <encoder>
+            <pattern>${PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="org.springframework" level="INFO" additivity="false">
+        <appender-ref ref="console"/>
+    </logger>
+
+    <logger name="org.hibernate.engine.internal.StatisticalLoggingSessionEventListener" level="INFO" additivity="false">
+        <appender-ref ref="console"/>
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="console" />
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>

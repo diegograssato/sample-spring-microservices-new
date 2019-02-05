@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: organization
-        image: piomin/organization:1.0
+        image: 553577346001.dkr.ecr.us-east-1.amazonaws.com/bra-gateway-service:1.0
         ports:
         - containerPort: 8080
         env:

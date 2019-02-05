@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration scan="true" scanPeriod="3 seconds">
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+    <property name="PATTERN"
+              value="%highlight(%d{dd-MM-yyyy HH:mm:ss.SSS}) | ${hostName} | %magenta([%thread]) | %highlight(%-5level) | %logger{36} | %highlight(%method) | %message %n"/>
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="org.springframework" level="INFO" additivity="false">
+        <appender-ref ref="console"/>
+    </logger>
+
+    <logger name="org.hibernate.engine.internal.StatisticalLoggingSessionEventListener" level="INFO" additivity="false">
+        <appender-ref ref="console"/>
+    </logger>
+
+    <logger name="org.hibernate.SQLQuery" level="debug">
+        <appender-ref ref="console"/>
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="console"/>
+    </root>
+
+</configuration>

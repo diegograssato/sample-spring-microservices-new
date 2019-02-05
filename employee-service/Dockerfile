@@ -1,8 +1,21 @@
 FROM openjdk:8-jre-alpine
-ENV APP_FILE employee-service-1.0-SNAPSHOT.jar
+
+ARG APP_FILE
+ARG APP_VERSION
+ARG COMMIT_HASH
+
+LABEL NAME=$APP_FILE
+LABEL VERSION=$APP_VERSION
+LABEL COMMIT_HASH=$COMMIT_HASH
+
 ENV APP_HOME /usr/apps
+
 EXPOSE 8080
-COPY target/$APP_FILE $APP_HOME/
+
+COPY target/$APP_FILE $APP_HOME/app.jar
+
 WORKDIR $APP_HOME
+
 ENTRYPOINT ["sh", "-c"]
-CMD ["exec java -jar $APP_FILE"]
+
+CMD ["exec java -jar app.jar"]

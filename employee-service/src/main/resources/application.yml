@@ -1,4 +1,16 @@
+server:
+  tomcat:
+    uri-enconding: UTF-8
+  port: 8080
+  compression:
+    enabled: true
+
 spring:
+  profiles:
+    active: production
+  jackson:
+    serialization:
+      indent_output: true
   application:
     name: employee
   data:
@@ -6,5 +18,4 @@ spring:
       uri: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongodb/${MONGO_DATABASE}
       
 logging:
-  pattern: 
-    console: "%d{yyyy-MM-dd HH:mm:ss} ${LOG_LEVEL_PATTERN:-%5p} %m%n"
+  config: classpath:logback.xml

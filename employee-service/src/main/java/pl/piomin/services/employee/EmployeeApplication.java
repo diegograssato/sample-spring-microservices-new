@@ -14,6 +14,7 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import org.springframework.context.annotation.Profile;
 
 @SpringBootApplication
 @EnableDiscoveryClient
@@ -29,6 +30,7 @@ public class EmployeeApplication {
 	}
 
 	@Bean
+	@Profile("production")
 	public Docket swaggerPersonApi10() {
 		return new Docket(DocumentationType.SWAGGER_2)
 				.select()

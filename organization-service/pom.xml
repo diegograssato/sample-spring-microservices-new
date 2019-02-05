@@ -7,7 +7,11 @@
 	</parent>
 	<artifactId>organization-service</artifactId>
 	<groupId>pl.piomin.services</groupId>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0</version>
+	<packaging>jar</packaging>
+
+	<name>Organization</name>
+	<description>Organization Service</description>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -69,13 +73,84 @@
 		    <groupId>org.springframework.cloud</groupId>
 		    <artifactId>spring-cloud-starter-sleuth</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jul-to-slf4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>log4j-over-slf4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.20</version>
+		</dependency>
 	</dependencies>
 
 	<build>
+		<finalName>bra-${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>pl.project13.maven</groupId>
+				<artifactId>git-commit-id-plugin</artifactId>
+				<version>${git-commit-id-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>get-the-git-infos</id>
+						<goals>
+							<goal>revision</goal>
+						</goals>
+						<phase>validate</phase>
+					</execution>
+				</executions>
+				<configuration>
+					<dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
+					<prefix>git</prefix>
+					<verbose>false</verbose>
+					<generateGitPropertiesFile>true</generateGitPropertiesFile>
+					<generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties.json</generateGitPropertiesFilename>
+					<format>json</format>
+					<gitDescribe>
+						<skip>false</skip>
+						<always>false</always>
+						<dirty>false</dirty>
+					</gitDescribe>
+				</configuration>
+			</plugin>
+
+
+			<plugin>
+				<groupId>io.openliberty.boost</groupId>
+				<artifactId>boost-maven-plugin</artifactId>
+				<version>0.1</version>
+				<configuration>
+					<repository>553577346001.dkr.ecr.us-east-1.amazonaws.com/${project.build.finalName}</repository>
+					<buildArgs>
+						<APP_FILE>${project.build.finalName}.jar</APP_FILE>
+						<APP_VERSION>${project.version}</APP_VERSION>
+						<COMMIT_HASH>${git.commit.id}</COMMIT_HASH>
+					</buildArgs>
+					<tag>${project.version}</tag>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>docker-build</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

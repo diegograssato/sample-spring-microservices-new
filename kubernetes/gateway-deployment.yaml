@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: gateway
-        image: piomin/gateway:1.0
+        image: 553577346001.dkr.ecr.us-east-1.amazonaws.com/bra-gateway-service:1.0
         ports:
         - containerPort: 8080
 ---
@@ -33,3 +33,5 @@ spec:
   selector:
     app: gateway
   type: NodePort
+
+
